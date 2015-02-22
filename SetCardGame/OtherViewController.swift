@@ -8,23 +8,43 @@
 
 import UIKit
 
-class OtherViewController: UIViewController {
+class OtherViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+    var items: [String] = ["We", "Heart", "Swift"]
     override func viewDidLoad() {
         super.viewDidLoad()
         titleSet()
         if defaults.objectForKey("testing") != nil {
             `continue`.setTitle("Continue", forState: UIControlState.Normal)
         }
+        self.tUsers.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
         // Do any additional setup after loading the view.
     }
 
+    @IBOutlet weak var tUsers: UITableView!
     @IBOutlet weak var `continue`: UIButton!
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     @IBOutlet weak var setTitle: UILabel!
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.items.count;
+    }
+   
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell:UITableViewCell = self.tUsers.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        
+        cell.textLabel?.text = self.items[indexPath.row]
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("You selected cell #\(indexPath.row)!")
+    }
     func titleSet(){
         
         
